@@ -2,13 +2,13 @@ version: '3'
 
 services:
   talker:
-    image: "osrf/ros2:r2b3-core"
-    command: "ros2 run demo_nodes_cpp talker"
+    image: osrf/ros2:r2b3-core
+    command: ros2 run demo_nodes_cpp talker
     networks:
       - ros
   listener:
-    image: "osrf/ros2:r2b3-core"
-    command: "ros2 run demo_nodes_cpp listener"
+    image: osrf/ros2:r2b3-core
+    command: ros2 run demo_nodes_cpp listener
     networks:
       - ros
 
