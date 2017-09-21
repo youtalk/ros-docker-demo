@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  # master:
+  #   image: osrf/ros:kinetic-desktop-full
+  #   command: roscore
+  #   networks:
+  #     - ros
+  usb_cam:
+    build: .
+    command: roslaunch usb_cam usb_cam-test.launch
+    networks:
+      - ros
+    environment:
+      DISPLAY: unix$DISPLAY
+      # ROS_HOSTNAME: usb_cam
+      # ROS_MASTER_URI: http://master:11311
+      QT_X11_NO_MITSHM: 1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/video0:/dev/video0
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+
+networks:
+  ros:
+    driver: bridge
