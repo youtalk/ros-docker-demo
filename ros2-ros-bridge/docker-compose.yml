@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  master:
+    image: osrf/ros:kinetic-desktop-full
+    command: roscore
+    networks:
+      - ros
+  ros1_bridge:
+    image: osrf/ros2:r2b3-ros1-bridge
+    command: ros2 run ros1_bridge dynamic_bridge
+    environment:
+      ROS_HOSTNAME: talker
+      ROS_MASTER_URI: http://master:11311
+    networks:
+      - ros
+  talker:
+    image: osrf/ros:kinetic-desktop-full
+    command: rosrun roscpp_tutorials talker
+    environment:
+      ROS_HOSTNAME: talker
+      ROS_MASTER_URI: http://master:11311
+    networks:
+      - ros
+  listener:
+    image: osrf/ros2:r2b3-core
+    command: ros2 run demo_nodes_cpp listener
+    environment:
+      ROS_HOSTNAME: listener
+      ROS_MASTER_URI: http://master:11311
+    networks:
+      - ros
+
+networks:
+  ros:
+    driver: bridge
